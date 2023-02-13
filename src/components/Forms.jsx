@@ -21,14 +21,18 @@ function Forms() {
         setBody(event.target.value);
     };
 
-    const AddButtonHandler = () => {
+    const AddButtonHandler = (event) => {
+        event.preventDefault();
+
         const newTodo = {
             id: todo.id + 1,
             title,
             body,
             isDone: false,
         };
+
         dispatch(addTodo({ ...newTodo }));
+        setTodo(newTodo);
     };
 
     return (
