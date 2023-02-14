@@ -21,14 +21,10 @@ function Forms() {
         body: '',
         isDone: false,
     });
-    const [title, setTitle] = useState('');
-    const [body, setBody] = useState('');
 
-    const onTitleHandler = (event) => {
-        setTitle(event.target.value);
-    };
-    const onBodyHandler = (event) => {
-        setBody(event.target.value);
+    const onChangeHandler = (event) => {
+        const { name, value } = event.target;
+        setTodo({ ...todo, [name]: value });
     };
 
     const AddButtonHandler = (event) => {
@@ -36,18 +32,13 @@ function Forms() {
         if (idRef.current.value === '' || pwRef.current.value === '') {
             return false;
         }
-
-        const newTodo = {
+        dispatch(addTodo({ ...todo }));
+        setTodo({
             id: todo.id + 1,
-            title,
-            body,
+            title: '',
+            body: '',
             isDone: false,
-        };
-
-        dispatch(addTodo({ ...newTodo }));
-        setTodo(newTodo);
-        setTitle('');
-        setBody('');
+        });
     };
 
     return (
@@ -65,8 +56,9 @@ function Forms() {
                             required="required"
                             placeholder="할 일을 입력해주세요"
                             type="text"
-                            onChange={onTitleHandler}
-                            value={title}
+                            onChange={onChangeHandler}
+                            value={todo.title}
+                            name="title"
                             ref={idRef}
                         ></StInput>
                     </StLabel>
@@ -76,16 +68,15 @@ function Forms() {
                             required="required"
                             placeholder="할 일을 자세히 입력해주세요"
                             type="text"
-                            onChange={onBodyHandler}
-                            value={body}
+                            onChange={onChangeHandler}
+                            value={todo.body}
+                            name="body"
                             ref={pwRef}
                         ></StInput>
                     </StLabel>
                 </div>
 
-                <StButton backgroundcolor="#bcbc99" onClick={AddButtonHandler}>
-                    ➕
-                </StButton>
+                <StButton onClick={AddButtonHandler}>➕</StButton>
             </Stform>
         </>
     );
@@ -97,7 +88,6 @@ const Stform = styled.form`
     max-width: 1160px;
     min-width: 680px;
     height: 55px;
-    /* background-color: powderblue; */
     border: 5px solid #bcbc99;
     border-radius: 10px;
     display: flex;
