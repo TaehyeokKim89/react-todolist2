@@ -28,7 +28,6 @@ function List() {
         });
         dispatch(editTodo(editedTodo));
     };
-    console.log('listtodos', todos);
     return (
         <>
             <div>

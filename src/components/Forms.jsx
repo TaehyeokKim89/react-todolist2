@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addTodo } from '../redux/modules/todos';
 
 function Forms() {
     const dispatch = useDispatch();
+    const todos = useSelector((state) => {
+        return state.todos;
+    });
 
     const [todo, setTodo] = useState({
-        id: 0,
+        id: todos.length - 1,
         title: '',
         body: '',
         isDone: false,
