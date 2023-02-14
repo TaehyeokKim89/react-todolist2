@@ -27,7 +27,6 @@ export const deleteTodo = (payload) => {
 };
 
 export const toggleStatusTodo = (payload) => {
-    console.log('payload', payload);
     return {
         type: TOGGLESTATUSTODO,
         payload,
