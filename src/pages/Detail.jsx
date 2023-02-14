@@ -1,11 +1,11 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { toggleStatusTodo } from '../redux/modules/todos';
+import styled from 'styled-components';
+import { StButton } from '../components/Forms';
 
 function Detail() {
     const params = useParams();
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const todos = useSelector((state) => {
@@ -16,22 +16,47 @@ function Detail() {
         return item.id === parseInt(params.id);
     });
 
-    // dispatch(toggleStatusTodo(todos));
-
     return (
-        <div>
-            <button
-                onClick={() => {
-                    navigate('/');
-                }}
-            >
-                홈으로 이동
-            </button>
-            <h5>{foundTodo.id}</h5>
-            <h2>{foundTodo.title}</h2>
-            <h3>{foundTodo.body}</h3>
-        </div>
+        <>
+            <StDetailTodo>
+                <StDetailHeader>
+                    <div>
+                        <h3>ID : {foundTodo.id}</h3>
+                    </div>
+                    <StButton
+                        onClick={() => {
+                            navigate('/');
+                        }}
+                    >
+                        HOME
+                    </StButton>
+                </StDetailHeader>
+
+                <div>
+                    <h2>{foundTodo.title}</h2>
+                    <h3>{foundTodo.body}</h3>
+                </div>
+            </StDetailTodo>
+        </>
     );
 }
 
 export default Detail;
+
+const StDetailTodo = styled.div`
+    width: 500px;
+    height: 400px;
+    border: 3px solid #bcbc99;
+    padding: 20px;
+    margin: auto;
+    margin-top: 100px;
+    box-shadow: 3px 3px 3px;
+`;
+
+const StDetailHeader = styled.div`
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: space-between;
+    height: 100px;
+`;
