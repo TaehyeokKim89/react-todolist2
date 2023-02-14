@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTodo } from '../redux/modules/todos';
+import nextId from 'react-id-generator';
 
 function Forms() {
     const dispatch = useDispatch();
@@ -8,8 +9,11 @@ function Forms() {
         return state.todos;
     });
 
+    const randomId = nextId();
+    const newId = parseInt(randomId.replace(/[^0-9]/g, ''));
+
     const [todo, setTodo] = useState({
-        id: todos.length - 1,
+        id: newId,
         title: '',
         body: '',
         isDone: false,

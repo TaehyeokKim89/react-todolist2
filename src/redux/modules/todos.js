@@ -10,7 +10,7 @@ const todosIntialState = [
 const ADD_TODO = 'ADD_TODO';
 const DELETE_TODO = 'DELETE_TODO';
 const EDIT_TODO = 'EDIT_TODO';
-const TOGGLESTATUSTODO = 'TOGGLESTATUSTODO';
+// const TOGGLESTATUSTODO = 'TOGGLESTATUSTODO';
 
 export const addTodo = (payload) => {
     return {
@@ -26,12 +26,12 @@ export const deleteTodo = (payload) => {
     };
 };
 
-export const toggleStatusTodo = (payload) => {
-    return {
-        type: TOGGLESTATUSTODO,
-        payload,
-    };
-};
+// export const toggleStatusTodo = (payload) => {
+//     return {
+//         type: TOGGLESTATUSTODO,
+//         payload,
+//     };
+// };
 
 export const editTodo = (payload) => {
     return {
@@ -48,8 +48,8 @@ const todos = (state = todosIntialState, action) => {
             return (state = action.payload);
         case EDIT_TODO:
             return (state = action.payload);
-        case TOGGLESTATUSTODO:
-            return (state = action.payload);
+        // case TOGGLESTATUSTODO:
+        //     return (state = action.payload);
 
         default:
             return state;
