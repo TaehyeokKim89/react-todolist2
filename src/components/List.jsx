@@ -13,22 +13,11 @@ function List() {
     });
 
     const deleteButtonHandler = (id) => {
-        const filterdTodo = todos.filter((x) => id !== x.id);
-        dispatch(deleteTodo(filterdTodo));
+        dispatch(deleteTodo(id));
     };
 
     const editButtonHandler = (id) => {
-        const editedTodo = todos.map((x) => {
-            if (x.id === id) {
-                return {
-                    ...x,
-                    isDone: !x.isDone,
-                };
-            } else {
-                return { ...x };
-            }
-        });
-        dispatch(editTodo(editedTodo));
+        dispatch(editTodo(id));
     };
     return (
         <>

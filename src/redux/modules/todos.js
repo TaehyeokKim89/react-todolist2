@@ -1,46 +1,45 @@
-const todosIntialState = [
-    {
-        id: 0,
-        title: '제목',
-        body: '내용',
-        isDone: false,
-    },
-];
+const todosIntialState = [];
 
 const ADD_TODO = 'ADD_TODO';
 const DELETE_TODO = 'DELETE_TODO';
 const EDIT_TODO = 'EDIT_TODO';
 
 export const addTodo = (payload) => {
+    console.log('payload', payload);
     return {
         type: ADD_TODO,
         payload,
     };
 };
 
-export const deleteTodo = (payload) => {
+export const deleteTodo = (id) => {
     return {
         type: DELETE_TODO,
-        payload,
+        id,
     };
 };
 
-export const editTodo = (payload) => {
+export const editTodo = (id) => {
     return {
         type: EDIT_TODO,
-        payload,
+        id,
     };
 };
 
 const todos = (state = todosIntialState, action) => {
     switch (action.type) {
         case ADD_TODO:
-            return [...state, action.payload];
+            return (state = [...state, { ...action.payload }]);
         case DELETE_TODO:
-            return (state = action.payload);
+            return state.filter((x) => x.id !== action.id);
         case EDIT_TODO:
-            return (state = action.payload);
-
+            return state.map((x) => {
+                if (x.id === action.id) {
+                    return { ...x, isDone: !x.isDone };
+                } else {
+                    return { ...x };
+                }
+            });
         default:
             return state;
     }
