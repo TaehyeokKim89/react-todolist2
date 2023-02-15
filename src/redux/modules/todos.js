@@ -5,7 +5,6 @@ const DELETE_TODO = 'DELETE_TODO';
 const EDIT_TODO = 'EDIT_TODO';
 
 export const addTodo = (payload) => {
-    console.log('payload', payload);
     return {
         type: ADD_TODO,
         payload,

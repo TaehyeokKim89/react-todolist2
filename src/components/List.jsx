@@ -107,7 +107,7 @@ const StTodoContainer = styled.div`
 
 const StTodoBox = styled.div`
     border: 3px solid #bcbc99;
-    width: 220px;
+    width: 210px;
     min-height: 180px;
     padding: 10px;
     margin: 10px;

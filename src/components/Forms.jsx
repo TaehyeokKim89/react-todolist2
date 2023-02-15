@@ -1,16 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
+import { useInput } from '../hooks/Inputs';
 import { useDispatch } from 'react-redux';
 import { addTodo } from '../redux/modules/todos';
 import nextId from 'react-id-generator';
-import styled from 'styled-components';
 
 function Forms() {
     const dispatch = useDispatch();
+
     const idRef = useRef('');
     const pwRef = useRef('');
     useEffect(() => {
         idRef.current.focus();
     }, []);
+    const [inputTitle, onChangeTitle, setInputTitle] = useInput('');
+    const [inputBody, onChangeBody, setInputBody] = useInput('');
 
     const randomId = nextId();
     const newId = parseInt(randomId.replace(/[^0-9]/g, ''));
@@ -22,23 +26,20 @@ function Forms() {
         isDone: false,
     });
 
-    const onChangeHandler = (event) => {
-        const { name, value } = event.target;
-        setTodo({ ...todo, [name]: value });
-    };
-
     const AddButtonHandler = (event) => {
         event.preventDefault();
-        if (idRef.current.value === '' || pwRef.current.value === '') {
-            return false;
-        }
-        dispatch(addTodo({ ...todo }));
-        setTodo({
+        if (inputTitle.trim() === '' || inputBody.trim() === '') return;
+
+        const newTodo = {
             id: todo.id + 1,
-            title: '',
-            body: '',
+            title: inputTitle,
+            body: inputBody,
             isDone: false,
-        });
+        };
+        dispatch(addTodo({ ...newTodo }));
+        setTodo(newTodo);
+        setInputTitle('');
+        setInputBody('');
     };
 
     return (
@@ -47,7 +48,7 @@ function Forms() {
                 <div>My To Do List</div>
                 <div>React</div>
             </StHeader>
-            <Stform>
+            <Stform onSubmit={AddButtonHandler}>
                 <div>
                     <StLabel>
                         {' '}
@@ -56,9 +57,8 @@ function Forms() {
                             required="required"
                             placeholder="할 일을 입력해주세요"
                             type="text"
-                            onChange={onChangeHandler}
-                            value={todo.title}
-                            name="title"
+                            onChange={onChangeTitle}
+                            value={inputTitle}
                             ref={idRef}
                         ></StInput>
                     </StLabel>
@@ -68,15 +68,13 @@ function Forms() {
                             required="required"
                             placeholder="할 일을 자세히 입력해주세요"
                             type="text"
-                            onChange={onChangeHandler}
-                            value={todo.body}
-                            name="body"
+                            onChange={onChangeBody}
+                            value={inputBody}
                             ref={pwRef}
                         ></StInput>
                     </StLabel>
                 </div>
-
-                <StButton onClick={AddButtonHandler}>➕</StButton>
+                <StButton>➕</StButton>
             </Stform>
         </>
     );
@@ -99,9 +97,9 @@ const Stform = styled.form`
 `;
 
 export const StButton = styled.button`
-    width: 100px;
+    width: 90px;
     height: 30px;
-    margin-right: 10px;
+    margin-right: 15px;
     border-radius: 5px;
     border: 1px solid transparent;
     font-size: 20px;
