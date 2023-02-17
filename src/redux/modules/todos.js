@@ -1,46 +1,30 @@
-const todosIntialState = [];
+import { createSlice } from '@reduxjs/toolkit';
+import { current } from '@reduxjs/toolkit';
 
-const ADD_TODO = 'ADD_TODO';
-const DELETE_TODO = 'DELETE_TODO';
-const EDIT_TODO = 'EDIT_TODO';
+const todosInitialState = [{ id: 0, title: '', body: '', isDone: false }];
 
-export const addTodo = (payload) => {
-    return {
-        type: ADD_TODO,
-        payload,
-    };
-};
+const todosSlice = createSlice({
+    name: 'todos',
+    initialState: todosInitialState,
+    reducers: {
+        addTodo: (state, action) => {
+            state.push(action.payload);
+        },
 
-export const deleteTodo = (id) => {
-    return {
-        type: DELETE_TODO,
-        id,
-    };
-};
-
-export const editTodo = (id) => {
-    return {
-        type: EDIT_TODO,
-        id,
-    };
-};
-
-const todos = (state = todosIntialState, action) => {
-    switch (action.type) {
-        case ADD_TODO:
-            return (state = [...state, { ...action.payload }]);
-        case DELETE_TODO:
-            return state.filter((x) => x.id !== action.id);
-        case EDIT_TODO:
+        deleteTodo: (state, action) => {
+            return state.filter((x) => x.id !== action.payload);
+        },
+        editTodo: (state, action) => {
             return state.map((x) => {
-                if (x.id === action.id) {
+                if (x.id === action.payload) {
                     return { ...x, isDone: !x.isDone };
                 } else {
                     return { ...x };
                 }
             });
-        default:
-            return state;
-    }
-};
-export default todos;
+        },
+    },
+});
+
+export default todosSlice.reducer;
+export const { addTodo, deleteTodo, editTodo } = todosSlice.actions;
